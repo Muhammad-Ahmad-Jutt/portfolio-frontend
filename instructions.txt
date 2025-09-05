@@ -1,0 +1,4 @@
+To create a new react project using the node container in docker we use
+
+
+```docker run -it --rm -v ${PWD}:/app -w /app node:20 npx create-react-app .```
