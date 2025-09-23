@@ -1,24 +1,10 @@
-# TO USE NODE IMAGE
-FROM node:20
+FROM jenkins/jenkins:lts
 
-# SET WORKING DIRECTORY
-WORKDIR /app
+USER root
 
-# COPY PACKAGE FILES
-COPY package*.json ./
+# Install Node.js 20
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm
 
-# INSTALL DEPENDENCIES
-RUN npm install
-
-
-# COPY PROJECT FILES
-COPY . .
-
-
-
-# # BUILD THE REACT APP
-# RUN npm run build # no need right now as we are in development 
-# EXPOSE PORT
-EXPOSE 3000
-# START THE APP
-CMD ["npm", "start"]
+USER jenkins

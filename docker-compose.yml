@@ -15,5 +15,6 @@ services:
       - .:/app
       # Keep node_modules inside the container to avoid conflicts
       - /app/node_modules
+    restart: always
     stdin_open: true
     tty: true
