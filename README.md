@@ -1,3 +1,5 @@
+# portfolio-frontend
+The repo will serve as a frontend of the portfolio website and will be in react. It will fetch the dynamic data from the backend,
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
