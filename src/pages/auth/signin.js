@@ -1,10 +1,14 @@
-import { useState } from "react"
-const API_URL = process.env.REACT_APP_FLASK_SERVER
-
+import { useState, useContext , useEffect} from "react"
+import { AuthContext } from "../../context/AuthContext"
+import { useNavigate } from "react-router-dom"
 export default function SignIn (){
+  const API_URL = process.env.REACT_APP_FLASK_SERVER
+
     // state for the email and password
     const [email, setEmail]= useState("")
     const [password, setPassword]=useState("")
+    const { setUser } = useContext(AuthContext);
+    const navigate = useNavigate()
     const handleSubmit = async (e)=>{
         e.preventDefault();
         const payload = {
@@ -18,7 +22,12 @@ export default function SignIn (){
           body:JSON.stringify(payload)
         })
         const data = await res.json(); 
-        console.log(data)
+        if (data.user){
+          setUser(data.user)
+        }
+        if (data.user.role==='job_seeker'){
+          navigate(`/job_seeker_dashboard`)
+        }
     };
 
     return (<form onSubmit={handleSubmit}>
