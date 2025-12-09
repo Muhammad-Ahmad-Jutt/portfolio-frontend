@@ -6,13 +6,12 @@ export default function JobsSeekerDashboard() {
   const { token, user } = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate()
-
+  const [error, seterror]=useState("")
   useEffect(() => {
     if (!token) {
       navigate(`/sign-in`);
       return ;
     } ;
-      console.log('----------------------------->this is hte user',user)
 
       const fetchJobs = async () => {
         try {
@@ -29,6 +28,7 @@ export default function JobsSeekerDashboard() {
           console.log(data);
 
         } catch (error) {
+          seterror(error)
           console.error("Error fetching jobs:", error);
         }
       };
@@ -41,10 +41,13 @@ export default function JobsSeekerDashboard() {
   if (!jobs.length) return <p>Loading jobs...</p>;
 
   return (
+    <>
     <ul>
       {jobs.map((job, index) => (
         <li key={index}>{job.title || JSON.stringify(job)}</li>
       ))}
     </ul>
+      {error && <h5 style={{ color: "red" }}>{error}</h5>} {/* Conditional error */}
+      </>
   );
 }

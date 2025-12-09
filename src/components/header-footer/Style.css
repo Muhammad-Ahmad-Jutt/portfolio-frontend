@@ -1,0 +1,83 @@
+/* Header container */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+  font-family: Arial, sans-serif;
+}
+
+/* Left side (Logo or Title) */
+.left h2 {
+  margin: 0;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+/* Right side (Buttons + Greeting) */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Common navigation buttons */
+.navBtn {
+  padding: 8px 14px;
+  background: #0077b6;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: 0.2s ease;
+}
+
+.navBtn:hover {
+  background: #005f8c;
+}
+
+/* Greeting text */
+.greeting {
+  font-size: 0.95rem;
+  color: #444;
+  margin-right: 10px;
+}
+
+/* Logout button */
+.logoutButton {
+  padding: 8px 14px;
+  background-color: #e63946;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #d62828;
+}
+
+/* Sign-in text */
+.signinText {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.footer {
+  padding: 15px 25px;
+  background: #f8f8f8;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.footer p {
+  margin: 0;
+}
