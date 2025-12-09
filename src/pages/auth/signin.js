@@ -18,7 +18,6 @@ export default function SignIn (){
           password:password
 
         }
-        console.log(payload)
 
         const res = await fetch(`${API_URL}/api/v1/auth/sign-in`,{
           method: 'POST',
@@ -27,7 +26,6 @@ export default function SignIn (){
         })
         const data = await res.json(); 
         if (data.success===true){
-        console.log('------------->',data.access_token)
         login(data.access_token, data.user)
         if (data.user.role==='job_seeker'){
           navigate(`/job_seeker_dashboard`)
@@ -35,11 +33,15 @@ export default function SignIn (){
     };
      setError(data.message);
   };
-    return (<form onSubmit={handleSubmit}>
+    return (
+    <> 
+ 
+    <form onSubmit={handleSubmit}>
         <h3>heelow from sign in</h3>
+
         <br />
       <label>
-        email: <input name="emailInput" value={email} onChange={(e)=>setEmail(e.target.value)}/>
+        Email: <input name="emailInput" value={email} onChange={(e)=>setEmail(e.target.value)}/>
       </label>
       <br />
         <label>
@@ -48,5 +50,14 @@ export default function SignIn (){
       <br />
       <button type="submit">Sign In</button>
       {error && <h5 style={{ color: "red" }}>{error}</h5>} {/* Conditional error */}
-    </form>)
+          <br />
+      <label>Didn't have an Account?
+        <button type="button" className="signupButton" onClick={()=>navigate(`/sign-up`)}>
+          Sign up here
+        </button>
+      </label>
+
+    </form>
+
+    </>)
 }

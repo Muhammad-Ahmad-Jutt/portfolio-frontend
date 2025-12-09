@@ -1,0 +1,88 @@
+/* Container styling */
+form {
+  max-width: 450px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #f8f8f8;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0px 3px 8px rgba(0,0,0,0.08);
+  font-family: Arial, sans-serif;
+}
+
+/* Header */
+form h3 {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Label styling */
+form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Input fields */
+form input,
+form select {
+  padding: 10px;
+  margin-top: 5px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  background: white;
+  transition: border-color 0.3s ease;
+}
+
+form input:focus,
+form select:focus {
+  border-color: #0077b6;
+  outline: none;
+}
+
+/* Submit button */
+form button {
+  width: 100%;
+  padding: 12px;
+  background: #0077b6;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+form button:hover {
+  background: #005f8c;
+}
+
+form button:active {
+  transform: scale(0.97);
+}
+
+/* Slight spacing fix for readability */
+form br {
+  display: none; /* br tags not needed anymore */
+}
+.signupButton {
+  all: unset;             /* removes default button styles */
+  cursor: pointer;        /* pointer cursor */
+  color: #0077b6;         /* link-like color */
+  text-decoration: underline; 
+  font-weight: 500;        /* slightly bold */
+  font-size: 1rem;
+  display: inline;         /* stay inline with text */
+  margin-left: 4px;        /* tiny space between text and button */
+  transition: color 0.2s ease;
+}
+
+.signupButton:hover {
+  color: black;          /* subtle hover */
+  background-color: #f8f8f8;
+}

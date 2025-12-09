@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "./Style.css"
 const API_URL = process.env.REACT_APP_FLASK_SERVER
 export default function Signup (){
 

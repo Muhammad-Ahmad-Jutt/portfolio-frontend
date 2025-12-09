@@ -4,6 +4,7 @@ import Footer from "./components/header-footer/footer";
 import Signin from "./pages/auth/signin";
 import Signup from "./pages/auth/signup";
 import JobsSeekerDashboard from "./pages/dashboard/Job_seeker_dashboard";
+import Myjobs from "./pages/dashboard/Job_seeker_myjobs"
 function App() {
   return (
     <BrowserRouter>
@@ -14,6 +15,7 @@ function App() {
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
         <Route path="/job_seeker_dashboard" element={<JobsSeekerDashboard />} />
+        <Route path="/my_jobs" element={<Myjobs />}></Route>
       </Routes>
 
       <Footer />   
