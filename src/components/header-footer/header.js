@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { useNavigate , useLocation} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { AuthContext } from "../../context/AuthContext";
 import "./Style.css";
 
 export default function Header() {
   const { user, logout } = useContext(AuthContext);
-  const location=useLocation();
+  // const location=useLocation();
   const navigate = useNavigate();
   const  homepage = ()=>{
     if (user && user.role ==="job_seeker"){
