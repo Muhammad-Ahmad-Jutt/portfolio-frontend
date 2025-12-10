@@ -40,7 +40,7 @@ export default function JobApplicationDetail (){
         }
 
 fetchjobapplicationdetails()
-    },[id,token,navigate])
+    },[id,token,navigate,logout])
     if (!user) return <p>Please log in to see jobs.</p>;// these stopper are ritten with the help of ai
     if (!job)  return <p>Loading job Details</p>
     if (loading) return <p>Loading job details...</p>;

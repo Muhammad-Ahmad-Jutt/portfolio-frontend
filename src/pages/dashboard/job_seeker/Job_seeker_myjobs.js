@@ -34,7 +34,7 @@ export default function MyJobs() {
 
       fetchJobs();
     
-  }, [token, API_URL, navigate,user]);
+  }, [token, API_URL, navigate,user, logout]);
 
   if (!user) return <p>Please log in to see jobs.</p>;
   if (!jobs.length) return <p>Loading jobs...</p>;

@@ -30,6 +30,9 @@ export default function SignIn (){
         if (data.user.role==='job_seeker'){
           navigate(`/job_seeker_dashboard`)
         }
+        if (data.user.role=='recruiter'){
+          navigate('/recruiter_dashboard')
+        }
     };
      setError(data.message);
   };

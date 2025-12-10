@@ -22,10 +22,17 @@ export default function Header() {
 
       <div className="right">
 
-        {user && user.role === "job_seeker" && (<>
+        {user && user.role === "job_seeker" && (
+          <>
           <button className="navBtn" onClick={()=>navigate(`/my-jobs`)}>My Jobs</button>
           <button className="navBtn" onClick={()=>navigate(`/job_seeker_dashboard`)}>Jobs</button>
-</>
+          </>
+        )}
+        {user && user.role === "recruiter" && (
+          <>
+          <button className="navBtn" onClick={()=>navigate(`/create_job_form`)}>Create Job</button>
+          <button className="navBtn" onClick={()=>navigate(`/my_jobs`)}>My Jobs</button>
+          </>
         )}
 
         {user ? (
