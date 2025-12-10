@@ -38,7 +38,6 @@ export default function Signup (){
     });
 
     const data = await res.json();
-    console.log(data)
   };
 
 

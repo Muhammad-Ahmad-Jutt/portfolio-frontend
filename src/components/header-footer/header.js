@@ -23,7 +23,7 @@ export default function Header() {
       <div className="right">
 
         {user && user.role === "job_seeker" && (<>
-          <button className="navBtn" onClick={()=>navigate(`/my_jobs`)}>My Jobs</button>
+          <button className="navBtn" onClick={()=>navigate(`/my-jobs`)}>My Jobs</button>
           <button className="navBtn" onClick={()=>navigate(`/job_seeker_dashboard`)}>Jobs</button>
 </>
         )}
@@ -38,7 +38,7 @@ export default function Header() {
           </>
         ) : (
           // <span className="signinText">Please sign in</span>
-          <button className="Sign up Button">Sign up</button>
+          ""
         )}
       </div>
     </header>

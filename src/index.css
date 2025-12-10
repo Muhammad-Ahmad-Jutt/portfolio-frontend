@@ -14,3 +14,51 @@ code {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Container */
+.homepage-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+  font-family: 'Arial', sans-serif;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Title */
+.homepage-title {
+  font-size: 3rem;
+  color: #1e293b;
+  margin-bottom: 40px;
+}
+
+/* Button group */
+.button-group {
+  display: flex;
+  gap: 20px;
+}
+
+/* Buttons */
+.btn {
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  background-color: #2563eb; /* Blue */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #1d4ed8; /* Darker blue */
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}

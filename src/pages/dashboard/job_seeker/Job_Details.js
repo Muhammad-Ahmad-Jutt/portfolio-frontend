@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import "./Style.css"
 const API_URL = process.env.REACT_APP_FLASK_SERVER;
 export default function JobDetail (){
     const {id} = useParams()
-    const { token, user } = useContext(AuthContext);
+    const { token, user, logout } = useContext(AuthContext);
     const [job, setJobdata]=useState(null)
     const [loading, setLoading]=useState(true)
     const [error, seterror]=useState()
@@ -55,6 +55,7 @@ export default function JobDetail (){
 }
     useEffect(()=>{
         if (!token){
+          logout()
             navigate('/sign-in')
             return
         }
@@ -66,7 +67,6 @@ export default function JobDetail (){
                     "Authorization":`Bearer ${token}`
                 }});
                const  data = await res.json()
-            console.log(data)
             setJobdata(data)
             
             

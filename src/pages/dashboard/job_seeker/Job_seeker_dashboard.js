@@ -1,14 +1,15 @@
 import { useContext, useEffect, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 export default function JobsSeekerDashboard() {
   const API_URL = process.env.REACT_APP_FLASK_SERVER;
-  const { token, user } = useContext(AuthContext);
+  const { token, user , logout} = useContext(AuthContext);
   const [jobs, setJobs] = useState([]);
   const navigate = useNavigate()
   const [error, seterror]=useState("")
   useEffect(() => {
     if (!token) {
+      logout()
       navigate(`/sign-in`);
       return ;
     } ;
