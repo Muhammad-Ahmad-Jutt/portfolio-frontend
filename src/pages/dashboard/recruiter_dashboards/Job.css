@@ -1,0 +1,62 @@
+.job-container {
+    max-width: 650px;
+    margin: 50px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0px 4px 18px rgba(0,0,0,0.1);
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+.job-title {
+    text-align: center;
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.job-details p {
+    background: #f3f6ff;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 5px solid #4a90e2;
+    font-size: 16px;
+}
+
+.job-details strong {
+    color: #2c6ecb;
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: 0.25s ease;
+}
+
+.edit-btn {
+    background-color: #3478f6;
+}
+
+.edit-btn:hover {
+    background-color: #1f5dcc;
+}
+
+.delete-btn {
+    background-color: #d9534f;
+}
+
+.delete-btn:hover {
+    background-color: #b52b27;
+}

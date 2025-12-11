@@ -1,37 +1,17 @@
+// This is ai generated so the chat links is https://chatgpt.com/c/693ad9b3-6f40-8329-b0b3-c6fa40f71b2f
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-export default function JobForm() {
+export default function EditJobForm() {
   const { user, token } = useContext(AuthContext);
+  const { id } = useParams();
   const API_URL = process.env.REACT_APP_FLASK_SERVER;
   const navigate = useNavigate();
 
   const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    if (!user) navigate("/sign-in");
-    if (user && user.role !== "recruiter") navigate("/");
-  }, [user, navigate]);
-
-useEffect(() => {
-  const fetchCategories = async () => {
-    try {
-      const res = await fetch(`${API_URL}/api/v1/jobs/job_category`);
-      const data = await res.json();
-
-
-      if (Array.isArray(data)) {
-        setCategories(data);         
-      }
-    } catch (error) {
-      console.error("Could not fetch categories", error);
-    }
-  };
-
-  fetchCategories();
-}, [API_URL]);
-
+  const [loading, setLoading] = useState(true);
+  const [status, setStatus] = useState("Loading job...");
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -43,8 +23,82 @@ useEffect(() => {
     accepting_applicant: true,
   });
 
-  const [status, setStatus] = useState("");
+  // Wait for AuthContext to load before redirecting
+  useEffect(() => {
+    if (user === undefined) return; // still loading context
 
+    if (!user) {
+      navigate("/sign-in");
+      return;
+    }
+
+    if (user.role !== "recruiter") {
+      navigate("/");
+      return;
+    }
+  }, [user, navigate]);
+
+  // Fetch job categories
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/v1/jobs/job_category`);
+        const data = await res.json();
+        if (Array.isArray(data)) setCategories(data);
+      } catch (err) {
+        console.error("Could not fetch categories", err);
+      }
+    };
+
+    fetchCategories();
+  }, [API_URL]);
+
+  // Fetch job details for editing
+  useEffect(() => {
+    const fetchJob = async () => {
+      try {
+        const res = await fetch(`${API_URL}/api/v1/jobs/job/${id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await res.json();
+
+        // Support both {job: {...}} or {...} responses
+        const jobData = data.job || data;
+
+        if (!jobData.id) {
+          setStatus("Job not found.");
+          setLoading(false);
+          return;
+        }
+
+        setFormData({
+          title: jobData.title || "",
+          description: jobData.description || "",
+          active_date: jobData.active_date || "",
+          active_till: jobData.active_till || "",
+          job_category_id: jobData.job_category_id || "",
+          company: jobData.company || "",
+          active: jobData.active ?? true,
+          accepting_applicant: jobData.accepting_applicant ?? true,
+        });
+
+        setStatus("");
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setStatus("Error loading job.");
+        setLoading(false);
+      }
+    };
+
+    fetchJob();
+  }, [id, API_URL, token]);
+
+  // Handle form input changes
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -53,13 +107,14 @@ useEffect(() => {
     });
   };
 
+  // Submit updated job
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("");
+    setStatus("Updating job...");
 
     try {
-      const res = await fetch(`${API_URL}/api/v1/jobs/job`, {
-        method: "POST",
+      const res = await fetch(`${API_URL}/api/v1/jobs/job/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
@@ -69,15 +124,19 @@ useEffect(() => {
 
       const data = await res.json();
 
-      if (data.success) {
-        setStatus("Job created successfully!");
+      if (res.ok) {
+        setStatus("Job updated successfully!");
+        setTimeout(() => navigate(`/job/${id}`), 800);
       } else {
-        setStatus(data.error || "Failed to create job.");
+        setStatus(data.error || "Failed to update job.");
       }
     } catch (err) {
-      setStatus("Server error while creating job.");
+      console.error(err);
+      setStatus("Server error while updating job.");
     }
   };
+
+  if (loading) return <p className="text-center mt-10">Loading job...</p>;
 
   return (
     <div className="job-container max-w-xl mx-auto p-5">
@@ -87,6 +146,8 @@ useEffect(() => {
         onSubmit={handleSubmit}
         className="job-form space-y-4 bg-white p-6 shadow rounded-xl"
       >
+        <h2 className="text-xl font-bold text-center mb-4">Edit Job</h2>
+
         {/* Job Title */}
         <div className="job-field">
           <label className="block mb-1 font-semibold">Job Title</label>
@@ -123,7 +184,7 @@ useEffect(() => {
             className="job-input w-full p-2 border rounded"
             rows="4"
             required
-          ></textarea>
+          />
         </div>
 
         {/* Active Date */}
@@ -152,22 +213,24 @@ useEffect(() => {
           />
         </div>
 
+        {/* Job Category */}
         <div className="job-field">
           <label className="block mb-1 font-semibold">Job Category</label>
-        <select
-        name="job_category_id"
-        value={formData.job_category_id}
-        onChange={handleChange}
-        >
-        {categories.map((cat) => (
-            <option key={cat.id} value={cat.id}>
-            {cat.category_name}
-            </option>
-        ))}
-        </select>
+          <select
+            name="job_category_id"
+            value={formData.job_category_id}
+            onChange={handleChange}
+            className="w-full p-2 border rounded"
+          >
+            {categories.map((cat) => (
+              <option key={cat.id} value={cat.id}>
+                {cat.category_name}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Active checkbox */}
+        {/* Active Checkbox */}
         <div className="job-field flex items-center space-x-2">
           <input
             type="checkbox"
@@ -178,7 +241,7 @@ useEffect(() => {
           <label>Active</label>
         </div>
 
-        {/* Accepting applicants checkbox */}
+        {/* Accepting Applicants Checkbox */}
         <div className="job-field flex items-center space-x-2">
           <input
             type="checkbox"
@@ -189,12 +252,12 @@ useEffect(() => {
           <label>Accepting Applicants</label>
         </div>
 
-        {/* Submit button */}
+        {/* Update Button */}
         <button
           type="submit"
-          className="job-submit bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700"
+          className="job-submit bg-green-600 text-white w-full py-2 rounded hover:bg-green-700"
         >
-          Create Job
+          Update Job
         </button>
       </form>
     </div>

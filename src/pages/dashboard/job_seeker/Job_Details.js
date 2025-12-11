@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import "./Style.css"
-const API_URL = process.env.REACT_APP_FLASK_SERVER;
+export const API_URL = process.env.REACT_APP_FLASK_SERVER;
 export default function JobDetail (){
     const {id} = useParams()
     const { token, user, logout } = useContext(AuthContext);
