@@ -3,10 +3,11 @@
 // i have made several updated to it as per my requirements
 import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
-
+import { useNavigate } from "react-router-dom";
 
 export default function RecruiterJobs() {
 const API_URL = process.env.REACT_APP_FLASK_SERVER
+const navigate = useNavigate()
 const { token } = useContext(AuthContext);
 const [jobs, setJobs] = useState([]);
 const [loading, setLoading] = useState(true);

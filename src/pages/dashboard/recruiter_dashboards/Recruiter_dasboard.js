@@ -46,8 +46,14 @@ return (
 <div className="space-y-4">
 {jobs.map((job, index) => (
     <button
+     className="
+              w-full p-4 rounded-xl border 
+              border-gray-300 bg-white shadow-sm 
+              hover:shadow-md hover:border-blue-500 
+              transition text-left
+            "
     key={index}
-    onClick={() => navigate(`/get_job_details/${job.id}`)}
+    onClick={() => navigate(`/view_job_details/${job.id}`)}
     >
 <div key={job.id} className="p-4 border rounded shadow">
 <h3 className="text-xl font-semibold">{job.title}</h3>
