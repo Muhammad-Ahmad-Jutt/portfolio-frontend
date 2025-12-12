@@ -8,12 +8,12 @@ export default function Header() {
   // const location=useLocation();
   const navigate = useNavigate();
   const  homepage = ()=>{
-    // if (!user){
-    //   logout
-    //   navigate("/sign-in")
-    // }
     if (user && user.role ==="job_seeker"){
       navigate(`/job_seeker_dashboard`)
+    
+  }
+  if (user && user.role==="recruiter"){
+    navigate(`/recruiter_dashboard`)
   }
 
 

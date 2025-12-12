@@ -65,7 +65,6 @@ export default function EditJobForm() {
         });
 
         const data = await res.json();
-
         // Support both {job: {...}} or {...} responses
         const jobData = data.job || data;
 
@@ -74,12 +73,18 @@ export default function EditJobForm() {
           setLoading(false);
           return;
         }
+// const formattedActiveDate = activeDate.toISOString().split("T")[0]; this is is copied fromt he same chat
 
         setFormData({
           title: jobData.title || "",
           description: jobData.description || "",
-          active_date: jobData.active_date || "",
-          active_till: jobData.active_till || "",
+          active_date: jobData.active_date
+            ? new Date(jobData.active_date).toISOString().split("T")[0]
+            : "",
+
+          active_till: jobData.active_till
+            ? new Date(jobData.active_till).toISOString().split("T")[0]
+            : "",
           job_category_id: jobData.job_category_id || "",
           company: jobData.company || "",
           active: jobData.active ?? true,
@@ -126,7 +131,7 @@ export default function EditJobForm() {
 
       if (res.ok) {
         setStatus("Job updated successfully!");
-        setTimeout(() => navigate(`/job/${id}`), 800);
+        setTimeout(() => navigate(`/view_job_details/${id}`), 800);
       } else {
         setStatus(data.error || "Failed to update job.");
       }

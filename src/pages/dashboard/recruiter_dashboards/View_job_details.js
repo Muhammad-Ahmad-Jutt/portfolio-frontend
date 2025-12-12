@@ -56,7 +56,7 @@ export default function ViewJobDetails() {
 
             if (res.ok) {
                 alert("Job deleted successfully!");
-                navigate("/jobs");
+                navigate("/my_jobs");
             } else {
                 alert(result.message || "Unable to delete job.");
             }

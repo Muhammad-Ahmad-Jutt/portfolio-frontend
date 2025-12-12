@@ -5,13 +5,12 @@ import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function RecruiterJobs() {
+export default function MyJobs() {
 const API_URL = process.env.REACT_APP_FLASK_SERVER
-const navigate = useNavigate()
 const { token } = useContext(AuthContext);
 const [jobs, setJobs] = useState([]);
 const [loading, setLoading] = useState(true);
-
+const navigate=useNavigate()
 
 useEffect(() => {
 async function fetchJobs() {
@@ -45,19 +44,27 @@ return (
 
 
 <div className="space-y-4">
-{jobs.map((job,index) => (
-<button
-key={index}
-onClick={() => navigate(`/get_job_details/${job.id}`)}
->
-
+{jobs.map((job, index) => (
+    <button
+     className="
+              w-full p-4 rounded-xl border 
+              border-gray-300 bg-white shadow-sm 
+              hover:shadow-md hover:border-blue-500 
+              transition text-left
+            "
+    key={index}
+    onClick={() => navigate(`/view_job_details/${job.id}`)}
+    >
 <div key={job.id} className="p-4 border rounded shadow">
 <h3 className="text-xl font-semibold">{job.title}</h3>
 <p className="text-gray-600">{job.company}</p>
 <p className="text-sm mt-1">Active: {job.active_date} → {job.active_till}</p>
 </div>
 </button>
-))}
+
+
+))
+}
 </div>
 </div>
 );
