@@ -54,11 +54,6 @@ export default function JobDetail (){
   applytojob();
 }
     useEffect(()=>{
-        if (!token){
-          logout()
-            navigate('/sign-in')
-            return
-        }
         const fetchjobdetails = async()=>{
             try{
                 const res = await fetch(`${API_URL}/api/v1/jobs/job/${id}`,{

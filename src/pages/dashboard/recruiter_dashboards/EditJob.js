@@ -4,7 +4,7 @@ import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
 
 export default function EditJobForm() {
-  const { user, token } = useContext(AuthContext);
+  const { user, token, authLoading } = useContext(AuthContext);
   const { id } = useParams();
   const API_URL = process.env.REACT_APP_FLASK_SERVER;
   const navigate = useNavigate();
@@ -23,22 +23,21 @@ export default function EditJobForm() {
     accepting_applicant: true,
   });
 
-  // Wait for AuthContext to load before redirecting
-  useEffect(() => {
-    if (user === undefined) return; // still loading context
+useEffect(() => {
+  if (authLoading) return; // ⏳ WAIT
 
-    if (!user) {
-      navigate("/sign-in");
-      return;
-    }
+  console.log("User:", user);
 
-    if (user.role !== "recruiter") {
-      navigate("/");
-      return;
-    }
-  }, [user, navigate]);
+  if (!user) {
+    navigate("/sign-in");
+    return;
+  }
 
-  // Fetch job categories
+  if (user.role !== "recruiter") {
+    navigate("/");
+  }
+}, [user, authLoading, navigate]);
+
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -65,7 +64,6 @@ export default function EditJobForm() {
         });
 
         const data = await res.json();
-        // Support both {job: {...}} or {...} responses
         const jobData = data.job || data;
 
         if (!jobData.id) {

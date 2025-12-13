@@ -37,6 +37,7 @@ export default function Header() {
           <>
           <button className="navBtn" onClick={()=>navigate(`/create_job_form`)}>Create Job</button>
           <button className="navBtn" onClick={()=>navigate(`/my_jobs`)}>My Jobs</button>
+          <button className="navBtn" onClick={()=>navigate(`/view_job_applications`)}>View Job Applications</button>
           </>
         )}
 

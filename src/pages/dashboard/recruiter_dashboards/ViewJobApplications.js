@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function MyJobs() {
+export default function ViewJobApplications() {
 const API_URL = process.env.REACT_APP_FLASK_SERVER
 const { token } = useContext(AuthContext);
 const [jobs, setJobs] = useState([]);
@@ -15,7 +15,7 @@ const navigate=useNavigate()
 useEffect(() => {
 async function fetchJobs() {
 
-const res = await fetch(`${API_URL}/api/v1/jobs/job/jobs_recruiters`, {
+const res = await fetch(`${API_URL}/api/v1/jobs/job/jobs_applications_recruiters`, {
 method: "GET",
 headers: {
     Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ if (loading) return <p className="text-center">Loading...</p>;
 
 return (
 <div className="myjobs-container max-w-2xl mx-auto p-5">
-<h2 className="text-2xl font-bold mb-4">All Jobs</h2>
+<h2 className="text-2xl font-bold mb-4">Job Applications Data</h2>
 {jobs.length === 0 && <p>No jobs created yet.</p>}
 
 
@@ -53,12 +53,14 @@ return (
               transition text-left
             "
     key={index}
-    onClick={() => navigate(`/view_job_details/${job.id}`)}
+    onClick={() => navigate(`/view_job_application_details/${job.id}`)}
     >
 <div key={job.id} className="p-4 border rounded shadow">
 <h3 className="text-xl font-semibold">{job.title}</h3>
-<p className="text-gray-600">{job.company}</p>
-<p className="text-sm mt-1">Active: {job.active_date} → {job.active_till}</p>
+<p className="text-gray-600">Active {job.active ? "Yes" : "No"}</p>
+<p className="text-sm mt-1">Active From : {job.active_date}</p>
+<p className="text-sm mt-1"> Active Till: {job.active_till}</p>
+<p className="text-sm mt-1">Applications Receieved: {job.aplication_count}</p>
 </div>
 </button>
 

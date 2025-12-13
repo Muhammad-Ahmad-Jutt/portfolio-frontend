@@ -8,11 +8,6 @@ export default function MyJobs() {
   const navigate = useNavigate()
   const [error, seterror]=useState("")
   useEffect(() => {
-    if (!token) {
-      logout()
-      navigate(`/sign-in`);
-      return ;
-    } ;
 
       const fetchJobs = async () => {
         try {
@@ -37,7 +32,9 @@ export default function MyJobs() {
   }, [token, API_URL, navigate,user, logout]);
 
   if (!user) return <p>Please log in to see jobs.</p>;
-  if (!jobs.length) return <p>Loading jobs...</p>;
+  if (!Array.isArray(jobs) || jobs.length === 0) {
+  return <p>You have applied to all the active jobs. Thank you, visit after a while.</p>;
+}
 
   return (
     <>
