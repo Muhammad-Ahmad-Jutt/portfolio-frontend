@@ -10,7 +10,6 @@ export default function JobForm() {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    if (!user) navigate("/sign-in");
     if (user && user.role !== "recruiter") navigate("/");
   }, [user, navigate]);
 

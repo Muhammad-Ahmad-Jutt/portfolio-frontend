@@ -12,11 +12,7 @@ export default function ViewJobDetails() {
     const [job, setJob] = useState(null);
 
     useEffect(() => {
-        if (!token) {
-            logout();
-            navigate("/sign-in");
-            return;
-        }
+
 
         const fetchJobDetails = async () => {
             try {
@@ -83,7 +79,7 @@ export default function ViewJobDetails() {
                 <p><strong>Accepting Applicants:</strong> {job.accepting_applicant ? "Yes" : "No"}</p>
                 <p><strong>Posted Date:</strong> {job.posted_date}</p>
                 <p><strong>Posted By:</strong> {job.user}</p>
-                <p><strong>Employer User ID:</strong> {job.employer_user_id}</p>
+                <p><strong>No of applications receieved:</strong> {job.applications_count}</p>
             </div>
 
             <div className="btn-group">

@@ -8,15 +8,10 @@ export default function JobsSeekerDashboard() {
   const navigate = useNavigate()
   const [error, seterror]=useState("")
   useEffect(() => {
-    if (!token) {
-      logout()
-      navigate(`/sign-in`);
-      return ;
-    } ;
 
       const fetchJobs = async () => {
         try {
-          const res = await fetch(`${API_URL}/api/v1/jobs/job`, {
+          const res = await fetch(`${API_URL}/api/v1/jobs/job/get_all_active`, {
             method: "GET",
             headers: { 
               "Content-Type": "application/json",
@@ -24,7 +19,8 @@ export default function JobsSeekerDashboard() {
             },
           });
           const data = await res.json();
-          setJobs(data); 
+          console.log(data)
+          setJobs(data.jobs); 
 
         } catch (error) {
           seterror(error)
@@ -37,7 +33,9 @@ export default function JobsSeekerDashboard() {
   }, [token, API_URL, navigate,user, logout]);
 
   if (!user) return <p>Please log in to see jobs.</p>;
-  if (!jobs.length) return <p>Loading jobs...</p>;
+  if (!Array.isArray(jobs) || jobs.length === 0) {
+    return <p>You have applied to all the active jobs. Thank you, visit after a while.</p>;
+  }
 
   return (
     <>

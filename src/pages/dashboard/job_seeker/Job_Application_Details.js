@@ -13,11 +13,7 @@ export default function JobApplicationDetail (){
     const navigate = useNavigate()
 
     useEffect(()=>{
-        if (!token){
-          logout()
-            navigate('/sign-in')
-            return
-        }
+
         const fetchjobapplicationdetails = async()=>{
             try{
                 const res = await fetch(`${API_URL}/api/v1/jobs/job/applicaton/${id}`,{

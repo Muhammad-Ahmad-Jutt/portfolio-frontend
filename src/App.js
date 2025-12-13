@@ -13,6 +13,8 @@ import RecruiterJobs from "./pages/dashboard/recruiter_dashboards/RecruiterJobs"
 import CreateJobs from "./pages/dashboard/recruiter_dashboards/Create_Job_Form";
 import ViewJobDetails from "./pages/dashboard/recruiter_dashboards/View_job_details";
 import EditJobForm from "./pages/dashboard/recruiter_dashboards/EditJob";
+import ViewJobApplications from "./pages/dashboard/recruiter_dashboards/ViewJobApplications";
+import ViewJobApplicationsDetails from "./pages/dashboard/recruiter_dashboards/ViewJobApplicationsDetails";
 function App() {
   return (
     <BrowserRouter>
@@ -31,6 +33,8 @@ function App() {
         <Route path="/create_job_form" element={< CreateJobs />} />
         <Route path="/view_job_details/:id" element={<ViewJobDetails />} />
         <Route path="/edit_job/:id" element= {<EditJobForm />} />
+        <Route path="/view_job_applications" element={<ViewJobApplications />} />
+        <Route path="/view_job_application_details/:id" element={<ViewJobApplicationsDetails />} />
       </Routes>
 
       <Footer />   
