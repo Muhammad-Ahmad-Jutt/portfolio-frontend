@@ -3,13 +3,15 @@ import {  useParams } from "react-router-dom";
 import { API_URL } from "../job_seeker/Job_Details";
 import { AuthContext } from "../../../context/AuthContext";
 import "./Job.css";
+import { toast } from "react-toastify";
 // this file is generated from chatgpt link is https://chatgpt.com/c/693d89b7-8d7c-8327-b1f5-d874075f4566
 
 export default function ViewJobApplicationsDetails() {
   const { id } = useParams();
-  const { token } = useContext(AuthContext);
+  const { token,user } = useContext(AuthContext);
   const [job, setJob] = useState(null);
   const [applications, setApplications] = useState(null);
+  
   // Fetch Job Details
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -43,7 +45,6 @@ export default function ViewJobApplicationsDetails() {
           }
         );
         const data = await res.json();
-        console.log(data)
         setApplications(data);
       } catch (error) {
         console.log(error);
@@ -69,7 +70,7 @@ const updateApplicantStatus = async (job_id, newStatus, applicant_user_id) => {
         }),
       }
     );
-
+    const response = await res.json()
     if (res.ok) {
       setApplications((prev) =>
         prev.map((a) =>
@@ -78,13 +79,14 @@ const updateApplicantStatus = async (job_id, newStatus, applicant_user_id) => {
             : a
         )
       );
+      toast.success(response.message)
     } else {
       const error = await res.json();
       alert(error.message || "Failed to update status");
+      toast.error(response.message)
     }
   } catch (err) {
     console.log(err);
-    alert("Something went wrong");
   }
 };
 
@@ -142,7 +144,7 @@ const updateApplicantStatus = async (job_id, newStatus, applicant_user_id) => {
             <option value="Approved">Approved</option>
             <option value="Rejected">Rejected</option>
           </select>
-
+{user.role==="recruiter"?
           <button
             className="navbtn"
             onClick={() =>
@@ -154,7 +156,7 @@ const updateApplicantStatus = async (job_id, newStatus, applicant_user_id) => {
     }
           >
             Update
-          </button>
+          </button>:""}
         </div>
             </div>
           ))

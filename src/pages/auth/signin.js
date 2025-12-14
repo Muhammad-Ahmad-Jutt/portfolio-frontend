@@ -1,13 +1,14 @@
 import { useState, useContext } from "react"
 import { AuthContext } from "../../context/AuthContext"
 import { useNavigate } from "react-router-dom"
+import { toast } from "react-toastify"
 export default function SignIn (){
   const API_URL = process.env.REACT_APP_FLASK_SERVER
 
     // state for the email and password
     const [email, setEmail]= useState("")
     const [password, setPassword]=useState("")
-    const {login} = useContext(AuthContext)
+    const {login,logout} = useContext(AuthContext)
     const [error, setError] = useState(""); 
     const navigate = useNavigate()
     const handleSubmit = async (e)=>{
@@ -25,22 +26,27 @@ export default function SignIn (){
           body:JSON.stringify(payload)
         })
         const data = await res.json(); 
-        if (data.success===true){
-        login(data.access_token, data.user)
-        if (data.user.role==='job_seeker'){
-          navigate(`/job_seeker_dashboard`)
-        }
-        if (data.user.role=='recruiter'){
-          navigate('/recruiter_dashboard')
-        }
-    };
-     setError(data.message);
-  };
+if (data.success === true) {
+  toast.success(data.message);
+  login(data.access_token, data.user);
+  if (data.user.role === 'job_seeker') {
+    navigate(`/job_seeker_dashboard`);
+  } else if (data.user.role === 'recruiter') {
+    navigate('/recruiter_dashboard');
+  } else if (data.user.role === "super_user") {
+    navigate('/super_user');
+  } else {
+    logout();
+  }
+} else {
+  setError(data.message); 
+}
+    }
     return (
     <> 
  
     <form onSubmit={handleSubmit}>
-        <h3>heelow from sign in</h3>
+        <h3>Hi! from Job Portal</h3>
 
         <br />
       <label>

@@ -13,6 +13,7 @@ export default function JobDetail (){
     const navigate = useNavigate()
     const[show, setshow]=useState(false)
     const[applystatus, setstatus] = useState(false)
+    const [cv_link, setcv_link] = useState()
     const applyjob = ()=>{
       if (show===true){
       setshow(false)
@@ -24,6 +25,7 @@ export default function JobDetail (){
   const uploadcv = ()=>{
     const payload = {
       job_id:job.id,
+      cv_url :cv_link.name,
     }
     const applytojob = async()=>{
     try{
@@ -120,10 +122,13 @@ return (<>
     {show && <div>
       
       <label> Please upload your cv 
-      <input type="file" className="custom-file-input" />
+      <input type="file" className="custom-file-input" 
+          onChange={(e) => setcv_link(e.target.files[0])} // store the selected file
+          />
       </label>
       <button className="upload-btn"
       onClick={uploadcv}
+    
       >upload</button>
       { applystatus?applystatus:""}
       </div>}

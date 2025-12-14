@@ -15,9 +15,15 @@ import ViewJobDetails from "./pages/dashboard/recruiter_dashboards/View_job_deta
 import EditJobForm from "./pages/dashboard/recruiter_dashboards/EditJob";
 import ViewJobApplications from "./pages/dashboard/recruiter_dashboards/ViewJobApplications";
 import ViewJobApplicationsDetails from "./pages/dashboard/recruiter_dashboards/ViewJobApplicationsDetails";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import SuperUserDashboard from "./pages/dashboard/super_user/SuperUserDash";
+import ViewJobApplicationsData from "./pages/dashboard/super_user/ViewJobApplicationsData";
+import ViewUsersData from "./pages/dashboard/super_user/ViewUsersData";
 function App() {
   return (
     <BrowserRouter>
+            <ToastContainer />
       <Header />   
 
       <Routes>
@@ -35,6 +41,9 @@ function App() {
         <Route path="/edit_job/:id" element= {<EditJobForm />} />
         <Route path="/view_job_applications" element={<ViewJobApplications />} />
         <Route path="/view_job_application_details/:id" element={<ViewJobApplicationsDetails />} />
+        <Route path="/super_user" element={< SuperUserDashboard />} />
+        <Route path="/job_listings" element={<ViewJobApplicationsData />} />
+        <Route path = "/view_all_users" element={<ViewUsersData />} />
       </Routes>
 
       <Footer />   

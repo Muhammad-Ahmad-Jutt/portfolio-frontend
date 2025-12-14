@@ -19,7 +19,6 @@ export default function JobsSeekerDashboard() {
             },
           });
           const data = await res.json();
-          console.log(data)
           setJobs(data.jobs); 
 
         } catch (error) {

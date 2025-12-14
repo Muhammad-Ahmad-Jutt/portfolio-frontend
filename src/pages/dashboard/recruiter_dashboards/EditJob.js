@@ -2,7 +2,7 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate, useParams } from "react-router-dom";
-
+import { toast } from "react-toastify";
 export default function EditJobForm() {
   const { user, token, authLoading } = useContext(AuthContext);
   const { id } = useParams();
@@ -26,7 +26,6 @@ export default function EditJobForm() {
 useEffect(() => {
   if (authLoading) return; // ⏳ WAIT
 
-  console.log("User:", user);
 
   if (!user) {
     navigate("/sign-in");
@@ -129,9 +128,11 @@ useEffect(() => {
 
       if (res.ok) {
         setStatus("Job updated successfully!");
+        toast.success(data.message)
         setTimeout(() => navigate(`/view_job_details/${id}`), 800);
       } else {
         setStatus(data.error || "Failed to update job.");
+        toast.error(data.message)
       }
     } catch (err) {
       console.error(err);

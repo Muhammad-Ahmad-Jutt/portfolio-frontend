@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "./Style.css"
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 const API_URL = process.env.REACT_APP_FLASK_SERVER
+
 export default function Signup (){
 
 
@@ -15,6 +18,7 @@ export default function Signup (){
   const [gender, setGender] = useState("");
   const [dob, setDob] = useState("");
   const [empStatus, setEmpStatus] = useState("");
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,11 +42,19 @@ export default function Signup (){
     });
 
     const data = await res.json();
+    if (data.success){
+      toast.success(data.message)
+      navigate(`/sign-in`)
+    }
+    else{
+      toast.error(data.message)
+    }
   };
 
 
     return (
           <form onSubmit={handleSubmit}>
+            
       <h3>Sign Up</h3>
       <br />
 
@@ -119,6 +131,17 @@ export default function Signup (){
       <br />
 
       <button type="submit">Sign Up</button>
+            <br />
+      <br/>
+      <br />
+      <br/>
+
+            <label>To Sign in click below
+      <button type="button" className="signupButton" onClick={()=>navigate(`/sign-in`)}>
+        Sign In
+      </button>
+      </label>
+
     </form>
     );
 }
