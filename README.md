@@ -1,72 +1,42 @@
-# portfolio-frontend
-The repo will serve as a frontend of the portfolio website and will be in react. It will fetch the dynamic data from the backend,
-# Getting Started with Create React App
+# React Frontend Docker Project
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+This project is a React frontend application set up to run inside a Docker container. The container is based on `jenkins/jenkins:lts` and includes Node.js 20 for building and serving the React app. The project can either serve a production build or be used in development with environment variables for connecting to a backend Flask server.
 
-## Available Scripts
+## Project Structure
+project_root/
+│
+├── public/
+├── src/
+├── package.json
+├── package-lock.json
+├── Dockerfile
+└── docker-compose.yml
 
-In the project directory, you can run:
+## Docker Setup
+- Dockerfile installs Node.js 20, npm, and `serve` globally to serve production builds.  
+- Copies dependencies and installs them.  
+- Builds the React app (`npm run build`).  
+- Serves the static build folder on port 3000.  
+- docker-compose.yml builds the image, sets environment variable `REACT_APP_FLASK_SERVER`, maps port 3000, and restarts the container automatically.
 
-### `npm start`
+## Environment Variables
+- `REACT_APP_FLASK_SERVER` – The URL of your Flask backend (e.g., `http://localhost:5000`).  
+This variable is injected during build and can be accessed in React with `process.env.REACT_APP_FLASK_SERVER`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Running the Project
+### Production Build (Recommended)
+1. Build and start the container:
+docker-compose up --build
+2. Access the React app at [http://localhost:3000](http://localhost:3000).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Development (Optional)
+For live reload during development, mount the source folder as a volume and run `npm start` (requires modifying Dockerfile and Compose volumes).
 
-### `npm test`
+## Commands
+- Build Docker image: docker-compose build  
+- Start container: docker-compose up  
+- Stop container: docker-compose down
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+This project is licensed under the MIT License.
