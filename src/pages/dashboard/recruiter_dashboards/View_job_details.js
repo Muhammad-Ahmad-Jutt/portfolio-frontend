@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_URL } from "../job_seeker/Job_Details";
 import { AuthContext } from "../../../context/AuthContext";
 import "./Job.css"; // <-- CSS file
-
+import { toast } from "react-toastify";
 export default function ViewJobDetails() {
     const { id } = useParams();
     const navigate = useNavigate();
@@ -48,13 +48,12 @@ export default function ViewJobDetails() {
             });
 
             const result = await res.json();
-            console.log(result);
 
             if (res.ok) {
-                alert("Job deleted successfully!");
+                toast.success(result.message)
                 navigate("/my_jobs");
             } else {
-                alert(result.message || "Unable to delete job.");
+                toast.error(result.message)
             }
         } catch (error) {
             console.log(error);

@@ -5,16 +5,7 @@ services:
     build: .
     container_name: react-frontend
     environment:
-      # Enable polling for file changes in Windows
-      - CHOKIDAR_USEPOLLING=true
-      - WATCHPACK_POLLING=true
+      - REACT_APP_FLASK_SERVER=http://localhost:5000
     ports:
       - "3000:3000"
-    volumes:
-      # Mount the project into the container
-      - .:/app
-      # Keep node_modules inside the container to avoid conflicts
-      - /app/node_modules
     restart: always
-    stdin_open: true
-    tty: true

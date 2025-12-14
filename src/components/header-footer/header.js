@@ -15,10 +15,14 @@ export default function Header() {
   if (user && user.role==="recruiter"){
     navigate(`/recruiter_dashboard`)
   }
-
-
-
   }
+const logout_user = () => {
+  logout();         
+    setTimeout(() => {
+    navigate("/sign-in"); // defer navigation until after state update
+  }, 0);
+};
+
   return (
     <header className="header">
       <div className="left">
@@ -40,12 +44,17 @@ export default function Header() {
           <button className="navBtn" onClick={()=>navigate(`/view_job_applications`)}>View Job Applications</button>
           </>
         )}
-
+        {user && user.role === "super_user" && (
+          <>
+          <button className="navBtn" onClick={()=>navigate(`/view_all_users`)}>View Users</button>
+          <button className="navBtn" onClick={()=>navigate(`/job_listings`)}>View Jobs</button>
+          </>
+        )}
         {user ? (
           <>
             <span className="greeting">Hello, {user.firstname}</span>
 
-            <button className="logoutButton" onClick={logout}>
+            <button className="logoutButton" onClick={logout_user}>
               Logout
             </button>
           </>

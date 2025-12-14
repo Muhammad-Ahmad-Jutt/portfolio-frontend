@@ -60,3 +60,27 @@
 .delete-btn:hover {
     background-color: #b52b27;
 }
+.navbtn {
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: none;
+  background-color: #2563eb; /* blue-600 */
+  color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.navbtn:hover {
+  background-color: #1d4ed8; /* blue-700 */
+}
+
+.navbtn:active {
+  transform: scale(0.97);
+}
+
+.navbtn:disabled {
+  background-color: #9ca3af; /* gray-400 */
+  cursor: not-allowed;
+}

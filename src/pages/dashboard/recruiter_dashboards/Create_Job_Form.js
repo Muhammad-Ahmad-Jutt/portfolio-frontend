@@ -1,7 +1,7 @@
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-
+import { toast } from "react-toastify";
 export default function JobForm() {
   const { user, token } = useContext(AuthContext);
   const API_URL = process.env.REACT_APP_FLASK_SERVER;
@@ -70,8 +70,10 @@ useEffect(() => {
 
       if (data.success) {
         setStatus("Job created successfully!");
+        toast.success(data.message)
       } else {
         setStatus(data.error || "Failed to create job.");
+        toast.success(data.message)
       }
     } catch (err) {
       setStatus("Server error while creating job.");
