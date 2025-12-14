@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import { API_URL } from "../job_seeker/Job_Details";
 import { AuthContext } from "../../../context/AuthContext";
 import "./Job.css";
@@ -8,10 +8,8 @@ import "./Job.css";
 export default function ViewJobApplicationsDetails() {
   const { id } = useParams();
   const { token } = useContext(AuthContext);
-
   const [job, setJob] = useState(null);
   const [applications, setApplications] = useState(null);
-
   // Fetch Job Details
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -45,6 +43,7 @@ export default function ViewJobApplicationsDetails() {
           }
         );
         const data = await res.json();
+        console.log(data)
         setApplications(data);
       } catch (error) {
         console.log(error);
@@ -53,37 +52,42 @@ export default function ViewJobApplicationsDetails() {
     fetchApplicants();
   }, [id, token]);
 
-  // Update Applicant Status
-  const updateApplicantStatus = async (applicantId, newStatus) => {
-    try {
-      const res = await fetch(
-        `${API_URL}/api/v1/jobs/job_applications/${applicantId}/status`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ status: newStatus }),
-        }
-      );
-
-      if (res.ok) {
-        // Update state locally
-        setApplications((prev) =>
-          prev.map((a) =>
-            a.id === applicantId ? { ...a, application_status: newStatus } : a
-          )
-        );
-      } else {
-        const error = await res.json();
-        alert(error.message || "Failed to update status");
+const updateApplicantStatus = async (job_id, newStatus, applicant_user_id) => {
+  try {
+    const res = await fetch(
+      `${API_URL}/api/v1/jobs/job/application_status_update`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          job_id: job_id,
+          status: newStatus,
+          applicant_user_id:applicant_user_id,
+        }),
       }
-    } catch (err) {
-      console.log(err);
-      alert("Something went wrong");
+    );
+
+    if (res.ok) {
+      setApplications((prev) =>
+        prev.map((a) =>
+          a.id === job_id
+            ? { ...a, application_status: newStatus }
+            : a
+        )
+      );
+    } else {
+      const error = await res.json();
+      alert(error.message || "Failed to update status");
     }
-  };
+  } catch (err) {
+    console.log(err);
+    alert("Something went wrong");
+  }
+};
+
 
   if (!job) return <p>Loading job details...</p>;
 
@@ -97,7 +101,7 @@ export default function ViewJobApplicationsDetails() {
         ) : applications.length > 0 ? (
           applications.map((applicant) => (
             <div
-              key={applicant.id}
+              key={applicant.applicant_user_id}
               className="border rounded p-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2"
             >
               <div className="space-y-1">
@@ -119,19 +123,39 @@ export default function ViewJobApplicationsDetails() {
               </div>
 
               {/* Status Update */}
-              <div>
-                <select
-                  value={applicant.application_status}
-                  onChange={(e) =>
-                    updateApplicantStatus(applicant.id, e.target.value)
-                  }
-                  className="border border-gray-300 rounded px-2 py-1 text-sm"
-                >
-                  <option value="Pending">Pending</option>
-                  <option value="Approved">Approved</option>
-                  <option value="Rejected">Rejected</option>
-                </select>
-              </div>
+        <div className="flex gap-2 items-center" key={applicant.id}>
+          <select
+  value={applicant.application_status}
+  onChange={(e) =>
+    setApplications((prev) =>
+      prev.map((a) =>
+        a.applicant_user_id === applicant.applicant_user_id
+          ? { ...a, application_status: e.target.value }
+          : a
+      )
+    )
+  }
+  className="border border-gray-300 rounded px-2 py-1 text-sm"
+>
+            <option value="Pending">Pending</option>
+            <option value="Interview Scheduled">Interview Scheduled</option>
+            <option value="Approved">Approved</option>
+            <option value="Rejected">Rejected</option>
+          </select>
+
+          <button
+            className="navbtn"
+            onClick={() =>
+      updateApplicantStatus(
+        applicant.job_id,
+        applicant.application_status,
+        applicant.applicant_user_id
+      )
+    }
+          >
+            Update
+          </button>
+        </div>
             </div>
           ))
         ) : (
